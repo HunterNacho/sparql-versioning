@@ -1,6 +1,7 @@
 package util;
 
 import java.io.*;
+import java.util.regex.Pattern;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 
@@ -10,9 +11,9 @@ public class ThresholdFilter {
 
     private static int getIdNumber(String entity) {
         assert entity.startsWith("<") && entity.endsWith(">");
+        if (!Pattern.matches("Q\\d+>", entity))
+            return -1;
         int index = entity.lastIndexOf("Q");
-        if (index < 0)
-            return index;
         entity = entity.substring(index + 1, entity.length() - 1);
         return Integer.parseInt(entity);
     }
