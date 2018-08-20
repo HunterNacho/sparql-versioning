@@ -6,16 +6,13 @@ import java.util.zip.GZIPOutputStream;
 
 public class ThresholdFilter {
     private static final String outputFolder = "filtered/";
-    // Prefixes
-    private static final String wd = "http://www.wikidata.org/entity/";
-    //private static final String wdt = "http://www.wikidata.org/prop/direct/";
     private static final int threshold = 100000;
 
     private static int getIdNumber(String entity) {
-        assert entity.startsWith("<" + wd) && entity.endsWith(">");
+        assert entity.startsWith("<") && entity.endsWith(">");
         int index = entity.lastIndexOf("Q");
         if (index < 0)
-            return 0;
+            return index;
         entity = entity.substring(index + 1, entity.length() - 1);
         return Integer.parseInt(entity);
     }
@@ -51,17 +48,9 @@ public class ThresholdFilter {
             String[] triple = line.split(" ");
             String subject = triple[0];
             String object = triple[2];
-            if (!subject.contains(wd) && !object.contains(wd)) {
-                output.write(line);
-                output.newLine();
-                progress++;
-                continue;
-            }
-            int subjectId = 0;
-            if (subject.startsWith("<" + wd))
-                subjectId = getIdNumber(subject);
+            int subjectId = getIdNumber(subject);
             int objectId = 0;
-            if (object.startsWith("<" + wd))
+            if (object.startsWith("<"))
                 objectId = getIdNumber(object);
             if ((subjectId < threshold) && (objectId < threshold)) {
                 output.write(line);
