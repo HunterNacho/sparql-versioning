@@ -37,11 +37,13 @@ public class ThresholdFilter {
         String line;
         int progress = 0;
         while ((line = file.readLine()) != null) {
-            if ((progress % 100000) == 0) {
+            if ((progress % 1000000) == 0) {
                 System.out.println("Read " + progress + " lines");
             }
-            if (line.isEmpty())
+            if (line.isEmpty()) {
+                progress++;
                 continue;
+            }
             line = line.trim();
             String[] triple = line.split(" ");
             String subject = triple[0];
@@ -49,6 +51,7 @@ public class ThresholdFilter {
             if (!subject.contains(wd)) {
                 output.write(line);
                 output.newLine();
+                progress++;
                 continue;
             }
             int subjectId = getIdNumber(subject);
