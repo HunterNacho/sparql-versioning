@@ -35,7 +35,11 @@ public class ThresholdFilter {
         }
         BufferedWriter output = new BufferedWriter(new OutputStreamWriter(new GZIPOutputStream(new FileOutputStream(outputFolder + filename))));
         String line;
+        int progress = 0;
         while ((line = file.readLine()) != null) {
+            if ((progress % 100000) == 0) {
+                System.out.println("Read " + progress + " lines");
+            }
             if (line.isEmpty())
                 continue;
             line = line.trim();
@@ -55,6 +59,7 @@ public class ThresholdFilter {
                 output.write(line);
                 output.newLine();
             }
+            progress++;
         }
     }
 }
