@@ -12,8 +12,11 @@ public class ThresholdFilter {
     private static final int threshold = 100000;
 
     private static int getIdNumber(String entity) {
-        assert entity.startsWith("<" + wd + "Q") && entity.endsWith(">");
-        entity = entity.substring(wd.length() + 2, entity.length() - 1);
+        assert entity.startsWith("<" + wd) && entity.endsWith(">");
+        int index = entity.lastIndexOf("Q");
+        if (index < 0)
+            return 0;
+        entity = entity.substring(index + 1, entity.length() - 1);
         return Integer.parseInt(entity);
     }
 
@@ -48,13 +51,15 @@ public class ThresholdFilter {
             String[] triple = line.split(" ");
             String subject = triple[0];
             String object = triple[2];
-            if (!subject.contains(wd)) {
+            if (!subject.contains(wd) && !object.contains(wd)) {
                 output.write(line);
                 output.newLine();
                 progress++;
                 continue;
             }
-            int subjectId = getIdNumber(subject);
+            int subjectId = 0;
+            if (subject.startsWith("<" + wd))
+                subjectId = getIdNumber(subject);
             int objectId = 0;
             if (object.startsWith("<" + wd))
                 objectId = getIdNumber(object);
