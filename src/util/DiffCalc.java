@@ -29,13 +29,19 @@ public class DiffCalc {
         BufferedWriter deltaSub = new BufferedWriter(new FileWriter(outputFolder + "delta-_" + date1 + "__" + date2 + ".nt.gz"));
         String line1 = file1.readLine();
         String line2 = file2.readLine();
+        int progress = 0;
         while (line1!= null && line2!= null) {
+            if ((progress % 1000000) == 0) {
+                System.out.println("Read " + progress + " lines");
+            }
             if (line1.isEmpty()) {
                 line1 = file1.readLine();
+                progress++;
                 continue;
             }
             if (line2.isEmpty()) {
                 line2 = file2.readLine();
+                progress++;
                 continue;
             }
             line1 = line1.trim();
@@ -43,6 +49,7 @@ public class DiffCalc {
             if (line1.equals(line2)) {
                 line1 = file1.readLine();
                 line2 = file2.readLine();
+                progress += 2;
                 continue;
             }
             switch (Integer.signum(line1.compareTo(line2))) {
@@ -51,37 +58,55 @@ public class DiffCalc {
                     deltaSub.write(line1);
                     deltaSub.newLine();
                     line1 = file1.readLine();
+                    progress++;
                     break;
                 case 1:
                     // Line 1 > Line 2
                     deltaAdd.write(line2);
                     deltaAdd.newLine();
                     line2 = file2.readLine();
+                    progress++;
                     break;
                 case 0:
                     // Line 1 = Line 2
                 default:
                     line1 = file1.readLine();
                     line2 = file2.readLine();
+                    progress += 2;
             }
         }
         while (line2 != null) {
+            if ((progress % 1000000) == 0) {
+                System.out.println("Read " + progress + " lines");
+            }
             if (line2.isEmpty()) {
                 line2 = file2.readLine();
+                progress++;
                 continue;
             }
             deltaAdd.write(line2);
             deltaAdd.newLine();
             line2 = file2.readLine();
+            progress++;
         }
         while (line1 != null) {
+            if ((progress % 1000000) == 0) {
+                System.out.println("Read " + progress + " lines");
+            }
             if (line1.isEmpty()) {
                 line1 = file1.readLine();
+                progress++;
                 continue;
             }
             deltaSub.write(line1);
             deltaSub.newLine();
             line1 = file1.readLine();
+            progress++;
         }
+
+        deltaAdd.close();
+        deltaSub.close();
+        file1.close();
+        file2.close();
     }
 }

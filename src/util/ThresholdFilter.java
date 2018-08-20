@@ -64,5 +64,7 @@ public class ThresholdFilter {
             }
             progress++;
         }
+        output.close();
+        file.close();
     }
 }
