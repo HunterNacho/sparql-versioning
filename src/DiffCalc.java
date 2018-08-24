@@ -1,5 +1,6 @@
 import java.io.*;
 import java.util.zip.GZIPInputStream;
+import java.util.zip.GZIPOutputStream;
 
 public class DiffCalc {
     private static final String outputFolder = "diffs/";
@@ -20,11 +21,13 @@ public class DiffCalc {
             System.exit(1);
             return;
         }
-        // Filenames should have this format: "wikidata-YYYYMMDD-truthy-BETA.nt.sorted.gz"
+        // Filenames should have this format: "wikidata-YYYYMMDD-truthy-BETA.nt.gz"
         String date1 = args[0].substring(9,17);
-        String date2 = args[0].substring(9,17);
-        BufferedWriter deltaAdd = new BufferedWriter(new FileWriter(outputFolder + "delta+_" + date1 + "__" + date2 + ".nt.gz"));
-        BufferedWriter deltaSub = new BufferedWriter(new FileWriter(outputFolder + "delta-_" + date1 + "__" + date2 + ".nt.gz"));
+        String date2 = args[2].substring(9,17);
+        String deltaAddFilename = outputFolder + "delta+_" + date1 + "_" + date2 + ".nt.gz";
+        String deltaSubFilename = outputFolder + "delta-_" + date1 + "_" + date2 + ".nt.gz";
+        BufferedWriter deltaAdd = new BufferedWriter(new OutputStreamWriter(new GZIPOutputStream(new FileOutputStream(deltaAddFilename))));
+        BufferedWriter deltaSub = new BufferedWriter(new OutputStreamWriter(new GZIPOutputStream(new FileOutputStream(deltaSubFilename))));
         String line1 = file1.readLine();
         String line2 = file2.readLine();
         int progress = 0;
@@ -47,7 +50,11 @@ public class DiffCalc {
             if (line1.equals(line2)) {
                 line1 = file1.readLine();
                 line2 = file2.readLine();
-                progress += 2;
+                progress++;
+                if ((progress % 1000000) == 0) {
+                    System.out.println("Read " + progress + " lines");
+                }
+                progress++;
                 continue;
             }
             switch (Integer.signum(line1.compareTo(line2))) {
@@ -70,7 +77,11 @@ public class DiffCalc {
                 default:
                     line1 = file1.readLine();
                     line2 = file2.readLine();
-                    progress += 2;
+                    progress++;
+                    if ((progress % 1000000) == 0) {
+                        System.out.println("Read " + progress + " lines");
+                    }
+                    progress++;
             }
         }
         while (line2 != null) {
