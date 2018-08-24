@@ -23,7 +23,7 @@ public class DiffCalc {
         }
         // Filenames should have this format: "wikidata-YYYYMMDD-truthy-BETA.nt.gz"
         String date1 = args[0].substring(9,17);
-        String date2 = args[2].substring(9,17);
+        String date2 = args[1].substring(9,17);
         String deltaAddFilename = outputFolder + "delta+_" + date1 + "_" + date2 + ".nt.gz";
         String deltaSubFilename = outputFolder + "delta-_" + date1 + "_" + date2 + ".nt.gz";
         BufferedWriter deltaAdd = new BufferedWriter(new OutputStreamWriter(new GZIPOutputStream(new FileOutputStream(deltaAddFilename))));
