@@ -24,7 +24,7 @@ class QueryHandler {
         int whereLine = -1;
         for (int i = 0; i < lines.size(); i++) {
             String line = lines.get(i);
-            if (line.contains("WHERE")) {
+            if (!whereFound && line.contains("WHERE")) {
                 whereFound = true;
                 whereLine = i;
             }
