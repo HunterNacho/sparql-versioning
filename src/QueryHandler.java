@@ -24,17 +24,17 @@ class QueryHandler {
         int whereLine = -1;
         for (int i = 0; i < lines.size(); i++) {
             String line = lines.get(i);
-            if (!selectFound && line.contains("SELECT")) {
+            if (!selectFound && line.toUpperCase().contains("SELECT")) {
                 selectFound = true;
             }
-            if ((whereLine < 0) && line.contains("WHERE")) {
+            if ((whereLine < 0) && line.toUpperCase().contains("WHERE")) {
                 whereLine = i;
             }
             if (selectFound && line.contains("{")) {
-                if ((i == whereLine) && (line.lastIndexOf("{") < line.indexOf("WHERE")))
+                if ((i == whereLine) && (line.lastIndexOf("{") < line.toUpperCase().indexOf("WHERE")))
                     continue;
                 openingBraceLineIndex = i;
-                openingBraceCharIndex = line.indexOf("{", (i == whereLine) ? line.indexOf("WHERE") : 0);
+                openingBraceCharIndex = line.indexOf("{", (i == whereLine) ? line.toUpperCase().indexOf("WHERE") : 0);
                 return;
             }
         }

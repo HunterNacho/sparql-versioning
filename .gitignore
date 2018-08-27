@@ -1,3 +1,7 @@
 .idea/
 SparqlVersioning.iml
 *.class
+query.txt
+out/
+src/QueryHandlerTest.java
+graph-query.txt
