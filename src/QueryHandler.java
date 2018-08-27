@@ -20,15 +20,17 @@ class QueryHandler {
     }
 
     private void findOpeningBraceIndexes() {
-        boolean whereFound = false;
+        boolean selectFound = false;
         int whereLine = -1;
         for (int i = 0; i < lines.size(); i++) {
             String line = lines.get(i);
-            if (!whereFound && line.contains("WHERE")) {
-                whereFound = true;
+            if (!selectFound && line.contains("SELECT")) {
+                selectFound = true;
+            }
+            if ((whereLine < 0) && line.contains("WHERE")) {
                 whereLine = i;
             }
-            if (whereFound && line.contains("{")) {
+            if (selectFound && line.contains("{")) {
                 if ((i == whereLine) && (line.lastIndexOf("{") < line.indexOf("WHERE")))
                     continue;
                 openingBraceLineIndex = i;
