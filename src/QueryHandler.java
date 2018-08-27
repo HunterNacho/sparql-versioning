@@ -21,16 +21,18 @@ class QueryHandler {
 
     private void findOpeningBraceIndexes() {
         boolean whereFound = false;
+        int whereLine = -1;
         for (int i = 0; i < lines.size(); i++) {
             String line = lines.get(i);
             if (line.contains("WHERE")) {
                 whereFound = true;
+                whereLine = i;
             }
             if (whereFound && line.contains("{")) {
-                if (line.lastIndexOf("{") < line.indexOf("WHERE"))
+                if (i == whereLine && line.lastIndexOf("{") < line.indexOf("WHERE"))
                     continue;
                 openingBraceLineIndex = i;
-                openingBraceCharIndex = line.indexOf("{", line.contains("WHERE") ? line.indexOf("WHERE") : 0);
+                openingBraceCharIndex = line.indexOf("{", i == whereLine ? line.indexOf("WHERE") : 0);
                 return;
             }
         }
