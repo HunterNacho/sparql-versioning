@@ -29,10 +29,10 @@ class QueryHandler {
                 whereLine = i;
             }
             if (whereFound && line.contains("{")) {
-                if (i == whereLine && line.lastIndexOf("{") < line.indexOf("WHERE"))
+                if ((i == whereLine) && (line.lastIndexOf("{") < line.indexOf("WHERE")))
                     continue;
                 openingBraceLineIndex = i;
-                openingBraceCharIndex = line.indexOf("{", i == whereLine ? line.indexOf("WHERE") : 0);
+                openingBraceCharIndex = line.indexOf("{", (i == whereLine) ? line.indexOf("WHERE") : 0);
                 return;
             }
         }
@@ -69,7 +69,7 @@ class QueryHandler {
         BufferedWriter output = new BufferedWriter(new FileWriter(outputFilename));
         int i;
         for (i = 0; i < lines.size(); i++) {
-            if (i == openingBraceLineIndex && i == closingBraceLineIndex) {
+            if ((i == openingBraceLineIndex) && (i == closingBraceLineIndex)) {
                 String line = lines.get(i);
                 output.write(
                         line.substring(0, openingBraceCharIndex + 1)
