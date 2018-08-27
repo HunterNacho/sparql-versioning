@@ -36,7 +36,7 @@ public class QueryConverter {
                 String currentGraph = graphs[j];
                 script.write(scriptHeader + filename + scriptTail + currentGraph + "_" + queryId);
                 script.newLine();
-                String output = baseFolder + currentGraph + queryId + ".sql";
+                String output = baseFolder + currentGraph+ "/" + queryId + ".sql";
                 query.insertGraphAndWrite("http://wikidata.org/" + currentGraph, output);
             }
         }
