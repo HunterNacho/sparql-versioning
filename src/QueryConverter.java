@@ -21,7 +21,7 @@ public class QueryConverter {
         BufferedWriter script = new BufferedWriter(new FileWriter(baseFolder + "exec-all-queries"));
         for (int i = 0; i < 385; i++) {
             if ((i % 50) == 0)
-                System.out.println("Proccessed " + i + " files");
+                System.out.println("Processed " + i + " files");
             String queryId = "q" + String.format("%03d", i);
             String filename = baseFolder + queryId + ".sql";
             QueryHandler query;
