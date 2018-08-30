@@ -44,5 +44,6 @@ public class QueryResultsAnalyzer {
             table.write(tableRow.toString());
             table.newLine();
         }
+        table.close();
     }
 }
