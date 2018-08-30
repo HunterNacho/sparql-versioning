@@ -20,7 +20,7 @@ public class QueryResultsAnalyzer {
             String queryId = String.format("q%03d", i);
             tableRow.append(queryId);
             QueryResultsHandler query;
-            QueryResultsHandler previousQuery;
+            QueryResultsHandler previousQuery = null;
             boolean queryExists = true;
             for (int j = 0; j < graphs.length; j++) {
                 try {
