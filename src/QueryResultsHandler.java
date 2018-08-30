@@ -13,7 +13,7 @@ class QueryResultsHandler {
         while ((line = file.readLine()) != null) {
             if (!line.contains("http"))
                 continue;
-            results.add(line.trim().split(" ")[0]);
+            results.add(line.trim());
         }
         Collections.sort(results);
         file.close();
@@ -41,9 +41,9 @@ class QueryResultsHandler {
                     j++;
                 default:
             }
-            diffs += results.size() - i;
-            diffs += other.results.size() - j;
         }
+        diffs += results.size() - i;
+        diffs += other.results.size() - j;
         return diffs;
     }
 }
