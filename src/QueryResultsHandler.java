@@ -13,7 +13,7 @@ class QueryResultsHandler {
         while ((line = file.readLine()) != null) {
             if (!line.contains("http"))
                 continue;
-            results.add(line.trim());
+            results.add(line.trim().split(" ")[0]);
         }
         Collections.sort(results);
         file.close();
