@@ -1,19 +1,17 @@
 import java.io.*;
 
 public class QueryResultsAnalyzer {
-    private static final String baseFolder = "/home/icuevas/scripts/queries/wrapped/results/";
-    private static final String[] graphs = new String[]{
-            "filtered-20170830",
-            "filtered-20170907",
-            "filtered-20170913",
-            "filtered-20170920",
-            "filtered-20170927"
-    };
+    private static final String BASE_FOLDER = "/home/icuevas/scripts/queries/wrapped/results/";
     public static void main(String[] args) throws IOException {
         BufferedWriter table = new BufferedWriter(new FileWriter("results_table.csv"));
-        String allGraphs = graphs.toString();
-        allGraphs = allGraphs.substring(1, allGraphs.length() - 1);
-        table.write("o, " + allGraphs);
+        StringBuilder allGraphs = new StringBuilder();
+        allGraphs.append("o");
+        for (int i = 0; i < Constants.GRAPHS.length; i++) {
+            allGraphs.append(", ");
+            allGraphs.append("filtered-");
+            allGraphs.append(Constants.GRAPHS[i]);
+        }
+        table.write(allGraphs.toString());
         table.newLine();
         for (int i = 0; i < 385; i++) {
             StringBuilder tableRow = new StringBuilder();
@@ -22,9 +20,9 @@ public class QueryResultsAnalyzer {
             QueryResultsHandler query;
             QueryResultsHandler previousQuery = null;
             boolean queryExists = true;
-            for (int j = 0; j < graphs.length; j++) {
+            for (int j = 0; j < Constants.GRAPHS.length; j++) {
                 try {
-                    query = new QueryResultsHandler(baseFolder + graphs[j] + "_" + queryId);
+                    query = new QueryResultsHandler(BASE_FOLDER + "filtered-" + Constants.GRAPHS[j] + "_" + queryId);
                 }
                 catch (FileNotFoundException e) {
                     queryExists = false;
