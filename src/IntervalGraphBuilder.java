@@ -55,6 +55,8 @@ public class IntervalGraphBuilder {
             }
             boolean[] matches = new boolean[LENGTH];
             for (int i = 0; i < LENGTH; i++) {
+                if (lines[i] == null)
+                    continue;
                 matches[i] = lines[i].equals(min);
             }
             ArrayList<Interval> intervals = getIntervals(matches);
