@@ -47,7 +47,7 @@ public class IntervalGraphBuilder {
         }
         int processed = 0;
         while (!allNull(lines)) {
-            if ((processed % 100000) == 0)
+            if ((processed % 10000000) == 0)
                 System.out.println("Processed " + processed + " lines");
             String min = null;
             for (int i = 0; i < LENGTH; i++) {
