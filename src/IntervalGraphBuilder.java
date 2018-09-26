@@ -45,7 +45,10 @@ public class IntervalGraphBuilder {
             }
             lines[i] = files[i].readLine();
         }
+        int processed = 0;
         while (!allNull(lines)) {
+            if ((processed % 100000) == 0)
+                System.out.println("Processed " + processed + " lines");
             String min = null;
             for (int i = 0; i < LENGTH; i++) {
                 if (lines[i] == null)
@@ -66,8 +69,9 @@ public class IntervalGraphBuilder {
                 writer.write(min);
                 writer.newLine();
             }
+            processed++;
             for (int i = 0; i < LENGTH; i++) {
-                if (lines[i] == null)
+                if (lines[i] == null || matches[i])
                     continue;
                 lines[i] = files[i].readLine();
             }
