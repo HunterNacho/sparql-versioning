@@ -71,7 +71,7 @@ public class IntervalGraphBuilder {
             }
             processed++;
             for (int i = 0; i < LENGTH; i++) {
-                if (lines[i] == null || matches[i])
+                if (lines[i] == null || !matches[i])
                     continue;
                 lines[i] = files[i].readLine();
             }
