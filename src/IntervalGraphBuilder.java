@@ -20,21 +20,18 @@ public class IntervalGraphBuilder {
                     BASE_FOLDER + "wikidata-" + Constants.GRAPHS[i] + TAIL
             ))));
             for (int j = i; j < LENGTH; j++) {
+                String interval = Constants.GRAPHS[i] + "-" + Constants.GRAPHS[j];
                 writerHashMap.put(new Interval(i, j),
                         new BufferedWriter(new OutputStreamWriter(new GZIPOutputStream(new FileOutputStream(
-                        BASE_FOLDER + "intervals/" + Constants.GRAPHS[i] + "-" + Constants.GRAPHS[j] + ".nt.gz"
+                        BASE_FOLDER + "intervals/" + interval + ".nt.gz"
                 )))));
                 String start = "<http://wikidata.org/intervals/" +
-                        Constants.GRAPHS[i] +
-                        "-" +
-                        Constants.GRAPHS[j] +
+                        interval +
                         "> <http://wikidata.org/intervals/start>  \"" +
                         Constants.GRAPHS[i] +
                         "\" .";
                 String end = "<http://wikidata.org/intervals/" +
-                        Constants.GRAPHS[i] +
-                        "-" +
-                        Constants.GRAPHS[j] +
+                        interval +
                         "> <http://wikidata.org/intervals/end> \"" +
                         Constants.GRAPHS[j] +
                         "\" .";
@@ -43,7 +40,7 @@ public class IntervalGraphBuilder {
                 graphInfo.write(end);
                 graphInfo.newLine();
             }
-            lines[i] = files[i].readLine();
+            lines[i] = files[i].readLine().trim();
         }
         int processed = 0;
         while (!allNull(lines)) {
@@ -76,6 +73,8 @@ public class IntervalGraphBuilder {
                 if (!matches[i])
                     continue;
                 lines[i] = files[i].readLine();
+                if (lines[i] != null)
+                    lines[i] = lines[i].trim();
             }
         }
         for (BufferedReader file : files)
@@ -123,12 +122,6 @@ public class IntervalGraphBuilder {
         Interval(int start, int end) {
             this.start = start;
             this.end = end;
-        }
-        public String getStart() {
-            return Constants.GRAPHS[start];
-        }
-        public String getEnd() {
-            return Constants.GRAPHS[end];
         }
         @Override
         public int hashCode() {
