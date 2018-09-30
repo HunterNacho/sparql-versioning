@@ -40,7 +40,12 @@ public class IntervalGraphBuilder {
                 graphInfo.write(end);
                 graphInfo.newLine();
             }
-            lines[i] = files[i].readLine().trim();
+            String line = files[i].readLine();
+            while (line != null && line.isEmpty())
+                line = files[i].readLine();
+            if (line != null)
+                line = line.trim();
+            lines[i] = line;
         }
         int processed = 0;
         while (!allNull(lines)) {
@@ -72,9 +77,12 @@ public class IntervalGraphBuilder {
             for (int i = 0; i < LENGTH; i++) {
                 if (!matches[i])
                     continue;
-                lines[i] = files[i].readLine();
-                if (lines[i] != null)
-                    lines[i] = lines[i].trim();
+                String line = files[i].readLine();
+                while (line != null && line.isEmpty())
+                    line = files[i].readLine();
+                if (line != null)
+                    line = line.trim();
+                lines[i] = line;
             }
         }
         for (BufferedReader file : files)
@@ -125,7 +133,10 @@ public class IntervalGraphBuilder {
         }
         @Override
         public int hashCode() {
-            return 17 * start + 31 * end;
+            int result = 5;
+            result = 37 * result + start;
+            result = 37 * result + end;
+            return result;
         }
         @Override
         public boolean equals(Object other) {
