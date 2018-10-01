@@ -41,7 +41,7 @@ public class IntervalGraphBuilder {
                 graphInfo.newLine();
             }
             String line = files[i].readLine();
-            while (line != null && line.isEmpty())
+            while (line != null && line.trim().isEmpty())
                 line = files[i].readLine();
             if (line != null)
                 line = line.trim();
@@ -78,7 +78,7 @@ public class IntervalGraphBuilder {
                 if (!matches[i])
                     continue;
                 String line = files[i].readLine();
-                while (line != null && line.isEmpty())
+                while (line != null && line.trim().isEmpty())
                     line = files[i].readLine();
                 if (line != null)
                     line = line.trim();
