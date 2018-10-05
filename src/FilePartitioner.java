@@ -18,11 +18,17 @@ public class FilePartitioner {
         int totalLines = 0;
         int fileIndex = 1;
         BufferedWriter writer = openFile(outputFilename, fileIndex);
+        BufferedWriter loadFile = new BufferedWriter(new FileWriter("load-parts"));
+        loadFile.write("DELETE FROM DB.DBA.load_list;");
+        loadFile.newLine();
         String line;
         while ((line = reader.readLine()) != null) {
             if ((totalLines % 1000000) == 0)
                 System.out.println("Processed " + totalLines + " lines");
             if (currentLines == partitionLines) {
+                loadFile.write("ld_add('" + getPartName(outputFilename, fileIndex) +
+                        "', 'http://wikidata.org/intervals/20170830-20170927');");
+                loadFile.newLine();
                 writer.close();
                 fileIndex++;
                 writer = openFile(outputFilename, fileIndex);
@@ -33,10 +39,18 @@ public class FilePartitioner {
             currentLines++;
             totalLines++;
         }
+        reader.close();
+        loadFile.write("rdf_loader_run();");
+        loadFile.newLine();
+        loadFile.close();
     }
 
     private static BufferedWriter openFile(String filename, int partNumber) throws IOException{
         return new BufferedWriter(new OutputStreamWriter(new GZIPOutputStream(new FileOutputStream(
-                filename + "-part-" + partNumber + ".nt.gz"))));
+                getPartName(filename, partNumber)))));
+    }
+
+    private static String getPartName(String baseFilename, int partNumber) {
+        return baseFilename + "-part-" + partNumber + ".nt.gz";
     }
 }
