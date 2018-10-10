@@ -5,7 +5,6 @@ import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 
 public class IntervalGraphBuilder {
-    private static final String BASE_FOLDER = "/home/icuevas/data/filtered/";
     // Filenames should have this format: "wikidata-YYYYMMDD-truthy-BETA.nt.gz"
     private final static String TAIL = "-truthy-BETA.nt.gz";
     private static final HashMap<Interval, BufferedWriter> writerHashMap = new HashMap<>();
@@ -13,17 +12,18 @@ public class IntervalGraphBuilder {
     private static BufferedReader[] files = new BufferedReader[LENGTH];
 
     public static void main(String[] args) throws IOException {
-        BufferedWriter graphInfo = new BufferedWriter(new FileWriter(BASE_FOLDER + "intervals/graph_data.nt"));
+        long initialTime = System.currentTimeMillis();
+        BufferedWriter graphInfo = new BufferedWriter(new FileWriter(Constants.DATA_FOLDER + "intervals/graph_data.nt"));
         String[] lines = new String[LENGTH];
         for (int i = 0; i < LENGTH; i++) {
             files[i] = new BufferedReader(new InputStreamReader(new GZIPInputStream(new FileInputStream(
-                    BASE_FOLDER + "wikidata-" + Constants.GRAPHS[i] + TAIL
+                    Constants.DATA_FOLDER + "wikidata-" + Constants.GRAPHS[i] + TAIL
             ))));
             for (int j = i; j < LENGTH; j++) {
                 String interval = Constants.GRAPHS[i] + "-" + Constants.GRAPHS[j];
                 writerHashMap.put(new Interval(i, j),
                         new BufferedWriter(new OutputStreamWriter(new GZIPOutputStream(new FileOutputStream(
-                        BASE_FOLDER + "intervals/" + interval + ".nt.gz"
+                        Constants.DATA_FOLDER + "intervals/" + interval + ".nt.gz"
                 )))));
                 String start = "<http://wikidata.org/intervals/" +
                         interval +
@@ -47,7 +47,7 @@ public class IntervalGraphBuilder {
                 line = line.trim();
             lines[i] = line;
         }
-        int processed = 0;
+        long processed = 0;
         while (!allNull(lines)) {
             if ((processed % 1000000) == 0)
                 System.out.println("Processed " + processed + " lines");
@@ -90,6 +90,11 @@ public class IntervalGraphBuilder {
         for (BufferedWriter writer : writerHashMap.values())
             writer.close();
         graphInfo.close();
+        long endTime = System.currentTimeMillis();
+        BufferedWriter timeWriter = new BufferedWriter(new FileWriter("interval-time-stats"));
+        timeWriter.write("Interval building took " + (endTime - initialTime) + " ms");
+        timeWriter.newLine();
+        timeWriter.close();
     }
 
     private static ArrayList<Interval> getIntervals(boolean[] matches) {

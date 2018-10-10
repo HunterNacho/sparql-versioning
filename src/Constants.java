@@ -6,4 +6,6 @@ class Constants {
             "20170920",
             "20170927"
     };
+
+    static final String DATA_FOLDER = "/home/icuevas/data/";
 }
