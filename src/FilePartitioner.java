@@ -13,6 +13,8 @@ public class FilePartitioner {
         long partitionLines = Long.parseLong(args[1]);
         String targetGraph = args[2];
         String baseFolder = args[3];
+        if (!baseFolder.endsWith("/") && !baseFolder.endsWith("\\"))
+            baseFolder = baseFolder.concat("/");
         BufferedReader reader =
                 new BufferedReader(new InputStreamReader(new GZIPInputStream(new FileInputStream(inputFilename))));
         String outputFilename = inputFilename;
@@ -23,7 +25,7 @@ public class FilePartitioner {
         long totalLines = 0;
         long fileIndex = 1;
         BufferedWriter writer = openFile(outputFilename, fileIndex);
-        BufferedWriter loadFile = new BufferedWriter(new FileWriter("load-" + outputFilename + "-parts"));
+        BufferedWriter loadFile = new BufferedWriter(new FileWriter(outputFolder + "load-" + outputFilename + "-parts"));
         String line;
         while ((line = reader.readLine()) != null) {
             if ((totalLines % 1000000) == 0)
@@ -31,6 +33,8 @@ public class FilePartitioner {
             if (currentLines == partitionLines) {
                 loadFile.write("ld_add('" + baseFolder + getPartName(outputFilename, fileIndex) +
                         "', '"+ targetGraph + "');");
+                loadFile.newLine();
+                loadFile.write("rdf_loader_run();");
                 loadFile.newLine();
                 writer.close();
                 fileIndex++;
