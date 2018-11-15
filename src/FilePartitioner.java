@@ -24,14 +24,14 @@ public class FilePartitioner {
         long currentLines = 0;
         long totalLines = 0;
         long fileIndex = 1;
-        BufferedWriter writer = openFile(outputFilename, fileIndex);
+        BufferedWriter writer = openFile(outputFolder, fileIndex);
         BufferedWriter loadFile = new BufferedWriter(new FileWriter(outputFolder + "load-" + outputFilename + "-parts"));
         String line;
         while ((line = reader.readLine()) != null) {
             if ((totalLines % 1000000) == 0)
                 System.out.println("Processed " + totalLines + " lines");
             if (currentLines == partitionLines) {
-                loadFile.write("ld_add('" + baseFolder + getPartName(outputFilename, fileIndex) +
+                loadFile.write("ld_add('" + baseFolder + getPartName(outputFolder, fileIndex) +
                         "', '"+ targetGraph + "');");
                 loadFile.newLine();
                 loadFile.write("rdf_loader_run();");
@@ -48,8 +48,10 @@ public class FilePartitioner {
         }
         reader.close();
         if (currentLines > 0) {
-            loadFile.write("ld_add('" + baseFolder + getPartName(outputFilename, fileIndex) +
+            loadFile.write("ld_add('" + baseFolder + getPartName(outputFolder, fileIndex) +
                     "', '"+ targetGraph + "');");
+            loadFile.newLine();
+            loadFile.write("rdf_loader_run();");
             loadFile.newLine();
         }
         loadFile.close();
