@@ -4,7 +4,6 @@ import java.util.zip.GZIPOutputStream;
 
 public class ThresholdFilter {
     private static final String outputFolder = "filtered/";
-    private static final int threshold = 100000;
 
     private static int getIdNumber(String entity) {
         assert entity.startsWith("<") && entity.endsWith(">");
@@ -23,12 +22,13 @@ public class ThresholdFilter {
     }
 
     public static void main(String[] args) throws IOException{
-        if(args.length < 1) {
-            System.out.println("Filename not specified");
+        if(args.length < 2) {
+            System.out.println("Usage: ThresholdFilter <file> <threshold>");
             System.exit(0);
             return;
         }
         String filename =  args[0];
+        long threshold = Long.parseLong(args[1]);
         BufferedReader file;
         try {
             file = new BufferedReader(new InputStreamReader(new GZIPInputStream(new FileInputStream(filename))));
