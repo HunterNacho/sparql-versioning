@@ -36,10 +36,8 @@ public class FindMaxEntityId {
         String line;
         long progress = 0;
         int maxId = -1;
+        String maxLine = "";
         for (line = file.readLine(); line != null; line = file.readLine()) {
-            if ((progress % 1000000) == 0) {
-                System.out.println("Read " + progress + " lines");
-            }
             if (line.isEmpty()) {
                 progress++;
                 continue;
@@ -49,16 +47,21 @@ public class FindMaxEntityId {
             String subject = triple[0];
             String object = triple[2];
             int subjectId = getIdNumber(subject);
-            int objectId = 0;
+            int objectId = -1;
             if (object.startsWith("<"))
                 objectId = getIdNumber(object);
-            if (subjectId > maxId)
+            if (subjectId > maxId) {
                 maxId = subjectId;
-            if (objectId > maxId)
+                maxLine = line;
+            }
+            if (objectId > maxId) {
                 maxId = objectId;
+                maxLine = line;
+            }
             progress++;
         }
         file.close();
         System.out.println("Max Q id is " + maxId);
+        System.out.println(maxLine);
     }
 }
