@@ -4,22 +4,6 @@ import java.util.zip.GZIPOutputStream;
 
 public class ThresholdFilter {
 
-    private static int getIdNumber(String entity) {
-        assert entity.startsWith("<") && entity.endsWith(">");
-        int index = entity.lastIndexOf("Q");
-        if (index < 0)
-            return index;
-        entity = entity.substring(index + 1, entity.length() - 1);
-        int number;
-        try {
-            number = Integer.parseInt(entity);
-        }
-        catch (NumberFormatException e) {
-            number = -1;
-        }
-        return number;
-    }
-
     public static void main(String[] args) throws IOException{
         if(args.length < 3) {
             System.out.println("Usage: ThresholdFilter <file> <threshold> <output-folder>");
@@ -53,10 +37,10 @@ public class ThresholdFilter {
             String[] triple = line.split(" ");
             String subject = triple[0];
             String object = triple[2];
-            int subjectId = getIdNumber(subject);
+            int subjectId = Constants.getIdNumber(subject);
             int objectId = 0;
             if (object.startsWith("<"))
-                objectId = getIdNumber(object);
+                objectId = Constants.getIdNumber(object);
             if ((subjectId < threshold) && (objectId < threshold)) {
                 output.write(line);
                 output.newLine();

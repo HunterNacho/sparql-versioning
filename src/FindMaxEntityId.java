@@ -9,22 +9,6 @@ import java.util.zip.GZIPInputStream;
  */
 public class FindMaxEntityId {
 
-    private static int getIdNumber(String entity) {
-        assert entity.startsWith("<") && entity.endsWith(">");
-        int index = entity.lastIndexOf("Q");
-        if (index < 0)
-            return index;
-        entity = entity.substring(index + 1, entity.length() - 1);
-        int number;
-        try {
-            number = Integer.parseInt(entity);
-        }
-        catch (NumberFormatException e) {
-            number = -1;
-        }
-        return number;
-    }
-
 
     public static void main(String[] args) throws IOException{
         if (args.length < 1) {
@@ -46,10 +30,10 @@ public class FindMaxEntityId {
             String[] triple = line.split(" ");
             String subject = triple[0];
             String object = triple[2];
-            int subjectId = getIdNumber(subject);
+            int subjectId = Constants.getIdNumber(subject);
             int objectId = -1;
             if (object.startsWith("<"))
-                objectId = getIdNumber(object);
+                objectId = Constants.getIdNumber(object);
             if (subjectId > maxId) {
                 maxId = subjectId;
                 maxLine = line;
