@@ -18,12 +18,12 @@ public class FindMaxEntityId {
         }
         BufferedReader file = new BufferedReader(new InputStreamReader(new GZIPInputStream(new FileInputStream(args[0]))));
         String line;
-        long progress = 0;
+        long lines = 0;
         int maxId = -1;
         String maxLine = "";
         for (line = file.readLine(); line != null; line = file.readLine()) {
             if (line.isEmpty()) {
-                progress++;
+                lines++;
                 continue;
             }
             line = line.trim();
@@ -42,9 +42,10 @@ public class FindMaxEntityId {
                 maxId = objectId;
                 maxLine = line;
             }
-            progress++;
+            lines++;
         }
         file.close();
+        System.out.println("File has " + lines + " lines");
         System.out.println("Max Q id is " + maxId);
         System.out.println(maxLine);
     }

@@ -14,7 +14,7 @@ class Constants {
         int index = entity.lastIndexOf("/Q");
         if (index < 0)
             return index;
-        entity = entity.substring(index + 1, entity.length() - 1);
+        entity = entity.substring(index + 2, entity.length() - 1);
         int number;
         try {
             number = Integer.parseInt(entity);
