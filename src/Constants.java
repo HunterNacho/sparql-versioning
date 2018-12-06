@@ -1,5 +1,8 @@
 class Constants {
     static final String[] GRAPHS = new String[]{
+            "20170809",
+            "20170816",
+            "20170823",
             "20170830",
             "20170907",
             "20170913",
