@@ -16,7 +16,7 @@ public class QueryLoaderScriptGenerator {
             System.exit(0);
             return;
         }
-        BufferedWriter writer = new BufferedWriter(new FileWriter(queryFolder.getAbsolutePath() + "load-queries"));
+        BufferedWriter writer = new BufferedWriter(new FileWriter(queryFolder.getAbsolutePath() + "/load-queries"));
         File[] files = queryFolder.listFiles();
         assert files != null;
         for (File file : files) {
@@ -24,7 +24,7 @@ public class QueryLoaderScriptGenerator {
                 continue;
             writer.write(
                     "isql-vt 1111 dba dba exec=\"load " + file.getAbsolutePath() +
-                            ";\" > " + queryFolder.getAbsolutePath() + "results/" + file.getName()
+                            ";\" > " + queryFolder.getAbsolutePath() + "/results/" + file.getName()
             );
             writer.newLine();
         }
