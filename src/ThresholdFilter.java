@@ -24,7 +24,7 @@ public class ThresholdFilter {
         }
         BufferedWriter output = new BufferedWriter(new OutputStreamWriter(new GZIPOutputStream(new FileOutputStream(outputFolder + filename))));
         String line;
-        int progress = 0;
+        long progress = 0;
         while ((line = file.readLine()) != null) {
             if ((progress % 1000000) == 0) {
                 System.out.println("Read " + progress + " lines");
@@ -37,8 +37,8 @@ public class ThresholdFilter {
             String[] triple = line.split(" ");
             String subject = triple[0];
             String object = triple[2];
-            int subjectId = Constants.getIdNumber(subject);
-            int objectId = 0;
+            long subjectId = Constants.getIdNumber(subject);
+            long objectId = 0;
             if (object.startsWith("<"))
                 objectId = Constants.getIdNumber(object);
             if ((subjectId < threshold) && (objectId < threshold)) {

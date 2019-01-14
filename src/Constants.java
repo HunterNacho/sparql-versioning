@@ -12,15 +12,15 @@ class Constants {
 
     static final String DATA_FOLDER = "/home/icuevas/data/";
 
-    static int getIdNumber(String entity) {
+    static long getIdNumber(String entity) {
         assert entity.startsWith("<") && entity.endsWith(">");
         int index = entity.lastIndexOf("/Q");
         if (index < 0)
             return index;
         entity = entity.substring(index + 2, entity.length() - 1);
-        int number;
+        long number;
         try {
-            number = Integer.parseInt(entity);
+            number = Long.parseLong(entity);
         }
         catch (NumberFormatException e) {
             number = -1;
