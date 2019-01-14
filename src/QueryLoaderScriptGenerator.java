@@ -20,7 +20,7 @@ public class QueryLoaderScriptGenerator {
         File[] files = queryFolder.listFiles();
         assert files != null;
         for (File file : files) {
-            if (file.isDirectory())
+            if (file.isDirectory() || !file.getName().contains(".rq"))
                 continue;
             writer.write(
                     "isql-vt 1111 dba dba exec=\"load " + file.getAbsolutePath() +
