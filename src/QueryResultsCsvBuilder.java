@@ -17,6 +17,7 @@ public class QueryResultsCsvBuilder {
                     stats = line;
             }
             writer.write(file.getName() + ", " + stats);
+            writer.newLine();
             reader.close();
         }
         writer.close();
