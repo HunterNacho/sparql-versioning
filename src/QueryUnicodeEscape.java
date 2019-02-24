@@ -13,6 +13,7 @@ public class QueryUnicodeEscape {
             BufferedReader reader = new BufferedReader(new FileReader(file));
             for (String line = reader.readLine(); line != null; line = reader.readLine()) {
                 writer.write(line.replace("\\u", "\\\\u"));
+                writer.newLine();
             }
             writer.close();
             reader.close();
