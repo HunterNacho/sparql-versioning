@@ -20,7 +20,7 @@ public class QueryResultsCsvBuilder {
             }
             int rows = 0;
             long time = 0;
-            if (stats != "") {
+            if (!stats.isEmpty()) {
                 String[] split = stats.split("--");
                 rows = Integer.parseInt(split[0].replace("Rows.", "").trim());
                 time = Long.parseLong(split[1].replace("msec.", "").trim());
