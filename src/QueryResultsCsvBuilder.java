@@ -3,9 +3,10 @@ import java.io.*;
 public class QueryResultsCsvBuilder {
     public static void main(String[] args) throws IOException {
         File folder = new File(args[0]);
+        String output = args[1];
         File[] files = folder.listFiles();
         assert files != null;
-        BufferedWriter writer = new BufferedWriter(new FileWriter("results.csv"));
+        BufferedWriter writer = new BufferedWriter(new FileWriter(output));
         writer.write("query,rows,time");
         writer.newLine();
         for (File file : files) {
