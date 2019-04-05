@@ -22,11 +22,13 @@ public class QueryLoaderScriptGenerator {
         for (File file : files) {
             if (file.isDirectory() || !file.getName().contains(".rq"))
                 continue;
-            writer.write(
-                    "isql-vt 1111 dba dba exec=\"load " + file.getAbsolutePath() +
-                            ";\" > " + queryFolder.getAbsolutePath() + "/results/" + file.getName()
-            );
-            writer.newLine();
+            for (int i = 0; i < 5; i++) {
+                writer.write(
+                        "isql-vt 1111 dba dba exec=\"load " + file.getAbsolutePath() +
+                                ";\" > " + queryFolder.getAbsolutePath() + "/results/" + i + "/" +file.getName()
+                );
+                writer.newLine();
+            }
         }
         writer.close();
     }
