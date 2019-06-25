@@ -2,6 +2,7 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Arrays;
 
 public class QueryLoaderScriptGenerator {
     public static void main(String[] args) throws IOException {
@@ -19,13 +20,14 @@ public class QueryLoaderScriptGenerator {
         BufferedWriter writer = new BufferedWriter(new FileWriter(queryFolder.getAbsolutePath() + "/load-queries"));
         File[] files = queryFolder.listFiles();
         assert files != null;
+        Arrays.sort(files);
         for (File file : files) {
             if (file.isDirectory() || !file.getName().contains(".rq"))
                 continue;
             for (int i = 0; i < 5; i++) {
                 writer.write(
                         "isql-vt 1111 dba dba exec=\"load " + file.getAbsolutePath() +
-                                ";\" > " + queryFolder.getAbsolutePath() + "/results/" + i + "/" +file.getName()
+                                ";\" > " + queryFolder.getAbsolutePath() + "/results/" + i + "/" + file.getName()
                 );
                 writer.newLine();
             }
