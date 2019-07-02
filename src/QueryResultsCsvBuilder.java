@@ -1,4 +1,5 @@
 import java.io.*;
+import java.util.Arrays;
 
 public class QueryResultsCsvBuilder {
     public static void main(String[] args) throws IOException {
@@ -6,6 +7,7 @@ public class QueryResultsCsvBuilder {
         String output = args[1];
         File[] files = folder.listFiles();
         assert files != null;
+        Arrays.sort(files);
         BufferedWriter writer = new BufferedWriter(new FileWriter(output));
         writer.write("query,rows,time");
         writer.newLine();
