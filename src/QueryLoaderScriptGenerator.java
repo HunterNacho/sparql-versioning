@@ -29,7 +29,7 @@ public class QueryLoaderScriptGenerator {
                 continue;
             String filename = file.getName().replace(".rq", "");
             writer.write("mkdir " + outputFolder + filename);
-            writer.newline();
+            writer.newLine();
             for (int i = 0; i < 5; i++) {
                 writer.write(
                         "isql-vt 1111 dba dba " + file.getAbsolutePath() +
