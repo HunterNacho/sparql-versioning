@@ -6,8 +6,8 @@ import java.util.Arrays;
 
 public class QueryLoaderScriptGenerator {
     public static void main(String[] args) throws IOException {
-        if (args.length < 1) {
-            System.out.println("Usage: QueryLoaderScriptGenerator <script_folder>");
+        if (args.length < 2) {
+            System.out.println("Usage: QueryLoaderScriptGenerator <script_folder> <output_folder> [manual-diff]");
             System.exit(0);
             return;
         }
@@ -17,6 +17,9 @@ public class QueryLoaderScriptGenerator {
             System.exit(0);
             return;
         }
+        String outputFolder = args[1];
+        if (!outputFolder.endsWith("/"))
+            outputFolder = outputFolder.concat("/");
         BufferedWriter writer = new BufferedWriter(new FileWriter(queryFolder.getAbsolutePath() + "/load-queries"));
         File[] files = queryFolder.listFiles();
         assert files != null;
@@ -24,10 +27,12 @@ public class QueryLoaderScriptGenerator {
         for (File file : files) {
             if (file.isDirectory() || !file.getName().contains(".rq"))
                 continue;
+            String filename = file.getName().replace(".rq", "");
+            writer.write("mkdir " + outputFolder + filename);
             for (int i = 0; i < 5; i++) {
                 writer.write(
-                        "isql-vt 1111 dba dba exec=\"load " + file.getAbsolutePath() +
-                                ";\" > " + queryFolder.getAbsolutePath() + "/results/" + i + "/" + file.getName()
+                        "isql-vt 1111 dba dba " + file.getAbsolutePath() +
+                                " > " + outputFolder + filename + "/" + i
                 );
                 writer.newLine();
             }
