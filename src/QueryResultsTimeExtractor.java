@@ -46,7 +46,7 @@ public class QueryResultsTimeExtractor {
             times.append(avgTime);
             times.append(", ");
         }
-        BufferedWriter writer = new BufferedWriter(new FileWriter(folder.getAbsolutePath() + "/load-queries"));
+        BufferedWriter writer = new BufferedWriter(new FileWriter(folder.getAbsolutePath() + "/query-times"));
         writer.write(queries.toString());
         writer.newLine();
         writer.write(times.toString());
