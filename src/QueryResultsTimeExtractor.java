@@ -35,8 +35,8 @@ public class QueryResultsTimeExtractor {
                         time = Long.parseLong(split[1].replace("msec.", "").trim());
                         break;
                     }
-                    execTimes.add(time);
                 }
+                execTimes.add(time);
                 reader.close();
             }
             long avgTime = 0;
